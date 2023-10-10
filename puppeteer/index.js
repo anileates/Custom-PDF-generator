@@ -1,8 +1,20 @@
 const express = require("express");
 const app = express();
-const generateInvoice = require("./helpers/createTemplate");
+const {
+  generateInvoice,
+  generateInvoiceWithPlaywright,
+} = require("./helpers/createTemplate");
 
 app.use(express.json());
+
+app.post("/create-invoice-playwright", async (req, res) => {
+  const dataBinding = req.body;
+
+  const invoice = await generateInvoiceWithPlaywright({ dataBinding  });
+
+  res.contentType("application/pdf");
+  return res.send(invoice);
+});
 
 app.post("/create-invoice", async (req, res) => {
   const dataBinding = req.body;
