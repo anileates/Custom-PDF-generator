@@ -4,7 +4,8 @@ const {
   generateInvoiceWithHandlebars,
   generateInvoiceFromString,
   generateInvoicePug,
-  generateInvoiceMustache
+  generateInvoiceMustache,
+  generateInvoiceVue
 } = require("./helpers/createTemplate");
 
 app.use(express.json());
@@ -50,6 +51,14 @@ app.post("/create-invoice-mustache", async (req, res) => {
   const dataBinding = req.body;
 
   const invoice = await generateInvoiceMustache({ dataBinding, options });
+  res.contentType("application/pdf");
+  return res.send(invoice);
+});
+
+app.post('/create-invoice-vue', async (req, res) => {
+  const dataBinding = req.body;
+
+  const invoice = await generateInvoiceVue({ dataBinding, options });
   res.contentType("application/pdf");
   return res.send(invoice);
 });
