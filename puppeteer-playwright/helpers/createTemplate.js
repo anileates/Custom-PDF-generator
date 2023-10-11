@@ -11,6 +11,8 @@ const { createSSRApp } = require( "vue")
 const { renderToString } = require('vue/server-renderer')
 const Vue = require('vue');
 
+const getBrowser = require('./getBrowser')
+
 
 const generateInvoiceWithHandlebars = async ({ dataBinding, options }) => {
   let start = now();
@@ -175,10 +177,38 @@ const generateInvoiceVue = async ({ dataBinding, options }) => {
 
 };
 
+const generateInvoiceVueSingleBrowser = async ({ dataBinding, options }) => {
+  const { customerName, amount } = dataBinding;
+  let start = now();
+
+  const invoiceTemplate = fs.readFileSync(
+    path.join(process.cwd(), "/templates/invoice.html"),
+    "utf8"
+  );
+
+  const app = createSSRApp({
+    data: () => ({ customerName, amount }),
+    template: invoiceTemplate
+  })
+
+  const finalHtml = await renderToString(app)
+  console.log(`Time to compile the Vue template ${now() - start} ms`);
+
+  const browser = await getBrowser();
+
+  const page = await browser.newPage();
+  await page.goto(`data:text/html;charset=UTF-8,${finalHtml}`);
+
+  const pdf = await page.pdf(options);
+  await page.close() // Close page instead of the browser this time
+  return pdf;
+};
+
 module.exports = {
   generateInvoiceWithHandlebars,
   generateInvoiceFromString,
   generateInvoicePug,
   generateInvoiceMustache,
-  generateInvoiceVue
+  generateInvoiceVue,
+  generateInvoiceVueSingleBrowser
 };
