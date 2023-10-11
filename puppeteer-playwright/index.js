@@ -6,7 +6,7 @@ const {
   generateInvoicePug,
   generateInvoiceMustache,
   generateInvoiceVue,
-  generateInvoiceVueSingleBrowser
+  generateInvoiceVueSingleBrowser,
 } = require("./helpers/createTemplate");
 
 app.use(express.json());
