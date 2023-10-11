@@ -9,6 +9,8 @@ const {
   generateInvoiceVueSingleBrowser,
 } = require("./helpers/createTemplate");
 
+const sanitize = require("sanitize-html");
+
 app.use(express.json());
 
 const options = {
@@ -33,7 +35,22 @@ app.post("/create-invoice-handlebars", async (req, res) => {
 });
 
 app.post("/create-invoice-string", async (req, res) => {
-  const dataBinding = req.body;
+  console.log("Before Sanitazing: ", req.body)
+  let { customerName, amount } = req.body;
+
+  customerName = sanitize(customerName, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
+
+  amount = sanitize(amount, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
+
+  let dataBinding = { customerName, amount };
+
+  console.log("After Sanitazing: ", dataBinding)
 
   const invoice = await generateInvoiceFromString({ dataBinding, options });
   res.contentType("application/pdf");

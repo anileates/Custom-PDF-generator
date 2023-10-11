@@ -11,7 +11,6 @@ const { z, custom } = require("zod");
 const { createSSRApp } = require("vue");
 
 const getBrowser = require("./getBrowser");
-const sanitize = require("sanitize-html");
 
 const generateInvoiceWithHandlebars = async ({ dataBinding, options }) => {
   let start = now();
@@ -51,15 +50,6 @@ const generateInvoiceWithHandlebars = async ({ dataBinding, options }) => {
 const generateInvoiceFromString = async ({ dataBinding, options }) => {
   let { customerName, amount } = dataBinding;
 
-  customerName = sanitize(customerName, {
-    allowedTags: [],
-    allowedAttributes: {},
-  });
-
-  amount = sanitize(amount, {
-    allowedTags: [],
-    allowedAttributes: {},
-  });
 
   let start = now();
 
