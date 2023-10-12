@@ -35,7 +35,6 @@ app.post("/create-invoice-handlebars", async (req, res) => {
 });
 
 app.post("/create-invoice-string", async (req, res) => {
-  console.log("Before Sanitazing: ", req.body)
   let { customerName, amount } = req.body;
 
   customerName = sanitize(customerName, {
@@ -49,8 +48,6 @@ app.post("/create-invoice-string", async (req, res) => {
   });
 
   let dataBinding = { customerName, amount };
-
-  console.log("After Sanitazing: ", dataBinding)
 
   const invoice = await generateInvoiceFromString({ dataBinding, options });
   res.contentType("application/pdf");
