@@ -6,9 +6,9 @@ const { getTemplate } = require("../templates/getTemplate");
 const mustache = require("mustache");
 const pug = require("pug");
 let now = require("performance-now");
-const { z, custom } = require("zod");
 
 const { createSSRApp } = require("vue");
+const { renderToString } = require("@vue/server-renderer");
 
 const getBrowser = require("./getBrowser");
 
