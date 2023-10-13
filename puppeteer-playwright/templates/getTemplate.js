@@ -1,5 +1,8 @@
-const getTemplate = (customerName, amount) => {
-    return `<html>
+const getTemplate = (customerName, amount, products) => {
+  const productList = products
+    .map((productId) => `<li>Product ID: ${productId}</li>`)
+    .join("");
+  return `<html>
     <head>
         <meta charset="UTF-8">
         <title>Invoice</title>
@@ -7,7 +10,8 @@ const getTemplate = (customerName, amount) => {
     <body>
         <h1>Invoice</h1>
         <p>Customer Name: ${customerName}</p>
-        <p>Total Amount: ${ amount }</p>
+        <p>Total Amount: ${amount}</p>
+        <ul>${productList}</ul>
     </body>
     </html>
     
@@ -16,8 +20,8 @@ const getTemplate = (customerName, amount) => {
         background-color: red;
     }
     </style>`;
-}
+};
 
 module.exports = {
-    getTemplate
-}
+  getTemplate,
+};

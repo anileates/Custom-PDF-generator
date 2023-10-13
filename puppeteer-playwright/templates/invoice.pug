@@ -6,6 +6,9 @@ html
         h1 Invoice
         p Customer Name: #{customerName}
         p Total Amount: $#{amount}
+        ul 
+        each productId in products
+            li= "Product ID: " + productId
 
     style.
         p {

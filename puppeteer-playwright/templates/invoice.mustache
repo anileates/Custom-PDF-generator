@@ -7,6 +7,12 @@
         <h1>Invoice</h1>
         <p>Customer Name: {{ customerName }}</p>
         <p>Total Amount: ${{ amount }}</p>
+
+        <ul>
+            {{#products}}
+                <li>Product ID: {{ . }}</li>
+            {{/products}}
+        </ul>
     </body>
 </html>
 

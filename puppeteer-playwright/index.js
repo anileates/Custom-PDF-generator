@@ -26,6 +26,9 @@ const options = {
   path: "invoice.pdf", // remove path property to return PDF instead saving it locally
 };
 
+/**
+ * 
+ */
 app.post("/create-invoice-handlebars", async (req, res) => {
   const dataBinding = req.body;
 
@@ -35,19 +38,17 @@ app.post("/create-invoice-handlebars", async (req, res) => {
 });
 
 app.post("/create-invoice-string", async (req, res) => {
-  let { customerName, amount } = req.body;
+  let dataBinding = req.body;
 
-  customerName = sanitize(customerName, {
+  dataBinding.customerName = sanitize(dataBinding.customerName, {
     allowedTags: [],
     allowedAttributes: {},
   });
 
-  amount = sanitize(amount, {
+  dataBinding.amount = sanitize(dataBinding.amount, {
     allowedTags: [],
     allowedAttributes: {},
   });
-
-  let dataBinding = { customerName, amount };
 
   const invoice = await generateInvoiceFromString({ dataBinding, options });
   res.contentType("application/pdf");
